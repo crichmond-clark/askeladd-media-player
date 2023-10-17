@@ -8,8 +8,8 @@ export default {
     extend: {
       colors: {
         grey: {
-          text: "#D9D9D9",
-          200: "#7C7C7C",
+          light: "rgba(217, 217, 217, .1)",
+          text: "#7C7C7C",
           300: "#828282",
           400: "#696969",
           500: "#3F3F3F",
@@ -19,5 +19,5 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }
