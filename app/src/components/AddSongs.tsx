@@ -29,9 +29,7 @@ export function AddButton() {
     //create a new audio element and get the duration of the file
     const getAudioDuration = (file: File): Promise<number> => {
       return new Promise((resolve) => {
-        const audio = new Audio();
-        const blob = new Blob([file]);
-        audio.src = URL.createObjectURL(blob);
+        const audio = new Audio(URL.createObjectURL(file));
         audio.addEventListener("canplaythrough", () => {
           const seconds = audio.duration;
           resolve(seconds);
