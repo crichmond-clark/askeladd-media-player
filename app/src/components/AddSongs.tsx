@@ -10,7 +10,6 @@ export function AddButton() {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const filesList = [...(event.target.files || [])];
-    console.log("filesList:", filesList);
 
     //get metadata from file
     function awaitableJsmediatags(file: File) {
