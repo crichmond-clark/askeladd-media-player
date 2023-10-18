@@ -6,7 +6,9 @@ export function Library() {
   return (
     <div className="flex flex-col justify-center">
       {songs.map((song) => (
-        <h1 className="text-center text-grey-text">{song.title}</h1>
+        <h1 className="text-center text-grey-text">
+          {song.title} - {song.length}
+        </h1>
       ))}
     </div>
   );

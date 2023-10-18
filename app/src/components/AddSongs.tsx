@@ -1,17 +1,18 @@
 import { useLibraryStore } from "../stores/library";
-import type { TagType, jsmediatagsError, Tags } from "jsmediatags/types";
+import type { Tags } from "jsmediatags/types";
 import type { Song } from "../stores/library";
 
 var jsmediatags = window.jsmediatags;
-export function Dropdown() {
+export function AddButton() {
   const addSongs = useLibraryStore((state) => state.addSongs);
-  const songs = useLibraryStore((state) => state.songs);
+
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const filesList = [...(event.target.files || [])];
     console.log("filesList:", filesList);
 
+    //get metadata from file
     function awaitableJsmediatags(file: File) {
       return new Promise(function (resolve, reject) {
         jsmediatags.read(file, {
@@ -25,20 +26,26 @@ export function Dropdown() {
       });
     }
 
-    const getAudioDuration = (file: File): number => {
-      const audio = new Audio(URL.createObjectURL(file));
-      audio.addEventListener("canplaythrough", () => {
-        return audio.duration;
+    //create a new audio element and get the duration of the file
+    const getAudioDuration = (file: File): Promise<number> => {
+      return new Promise((resolve) => {
+        const audio = new Audio();
+        const blob = new Blob([file]);
+        audio.src = URL.createObjectURL(blob);
+        audio.addEventListener("canplaythrough", () => {
+          const seconds = audio.duration;
+          resolve(seconds);
+        });
       });
-      return 0;
     };
 
+    //extract metadata, create a new sopng and add it to the library
     const extractMetadata = async (file: File) => {
-      const song: Song = {
+      let song: Song = {
         title: "",
         artist: "",
         album: "",
-        length: 0,
+        length: 22,
       };
 
       let tags: Tags = await (awaitableJsmediatags(file) as Promise<Tags>);
@@ -47,14 +54,13 @@ export function Dropdown() {
       song.artist = tags.artist || "";
       song.album = tags.album || "";
 
-      song.length = getAudioDuration(file);
+      song.length = await getAudioDuration(file);
+
       addSongs(song);
     };
 
-    //TODO add song to store
-
     for (const file of filesList) {
-      extractMetadata(file);
+      await extractMetadata(file); // Wait for metadata extraction to finish before moving to the next file
     }
   };
 
