@@ -1,11 +1,12 @@
-import { Song } from "./Song";
+import { useLibraryStore } from "../stores/library";
 
 export function Library() {
-  const songs = ["song1", "song2", "song3", "song4", "song5"];
+  const songs = useLibraryStore((state) => state.songs);
+
   return (
     <div className="flex flex-col justify-center">
-      {songs.map(() => (
-        <Song />
+      {songs.map((song) => (
+        <h1 className="text-center text-grey-text">{song.title}</h1>
       ))}
     </div>
   );
