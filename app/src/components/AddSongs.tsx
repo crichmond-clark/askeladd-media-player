@@ -11,8 +11,8 @@ export function AddButton() {
   ) => {
     const filesList = [...(event.target.files || [])];
 
-    //get metadata from file
-    function awaitableJsmediatags(file: File) {
+    //extract metadata from files
+    const awaitableJsmediatags = (file: File): Promise<Tags> => {
       return new Promise(function (resolve, reject) {
         jsmediatags.read(file, {
           onSuccess: function (tag) {
@@ -23,7 +23,7 @@ export function AddButton() {
           },
         });
       });
-    }
+    };
 
     //create a new audio element and get the duration of the file
     const getAudioDuration = (file: File): Promise<number> => {
@@ -37,15 +37,15 @@ export function AddButton() {
     };
 
     //extract metadata, create a new sopng and add it to the library
-    const extractMetadata = async (file: File) => {
+    const extractMetadata = async (file: File): Promise<void> => {
       let song: Song = {
-        title: "",
-        artist: "",
-        album: "",
+        title: "no title",
+        artist: "no artist",
+        album: "no album",
         length: 22,
       };
 
-      let tags: Tags = await (awaitableJsmediatags(file) as Promise<Tags>);
+      let tags: Tags = await awaitableJsmediatags(file);
 
       song.title = tags.title || "";
       song.artist = tags.artist || "";
@@ -66,8 +66,7 @@ export function AddButton() {
       <button>
         <label htmlFor="file-input" className="hover:cursor-pointer">
           <svg
-            width="66"
-            height="50"
+            className="w-12"
             viewBox="0 0 66 50"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +82,6 @@ export function AddButton() {
               fill="#828282"
             />
           </svg>
-          Add songs
         </label>
         <input
           type="file"

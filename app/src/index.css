@@ -8,3 +8,23 @@
         @apply text-grey-text
     }
 }
+
+
+
+
+.song-grid {
+    grid-template-columns: [index] 16px [first] 4fr  [last] minmax(60px,1fr);
+}
+
+
+@media(min-width: 400px) {
+    .song-grid {
+        grid-template-columns: [index] 16px [first] 2fr [last] minmax(120px,1fr);
+    }
+}
+
+@media(min-width: 768px) {
+    .song-grid {
+        grid-template-columns: [index] 16px [first] 3fr [var1] 2fr  [last] minmax(120px,1fr);
+    }
+}
