@@ -1,12 +1,16 @@
 import { useState } from "react";
+import { Player } from "./Player";
+import { useLibraryStore } from "../stores/library";
+import { usePlayerStore } from "../stores/player";
 
 export function MediaControls() {
   const [isPlaying, setIsPlaying] = useState(false);
-
+  const selectedSong = usePlayerStore((state) => state.selectedSong);
   const changePlayState = () => setIsPlaying(!isPlaying);
 
   return (
     <>
+      {selectedSong && <Player />}
       <div className="mt-auto flex h-28 place-content-center items-center bg-grey-dark">
         {/* previous button */}
         <button className="mr-3 mt-2">

@@ -1,6 +1,6 @@
 import { useLibraryStore } from "../stores/library";
 import type { Tags } from "jsmediatags/types";
-import type { Song } from "../stores/library";
+import type { SongType } from "../stores/library";
 
 var jsmediatags = window.jsmediatags;
 export function AddButton() {
@@ -38,11 +38,12 @@ export function AddButton() {
 
     //extract metadata, create a new sopng and add it to the library
     const extractMetadata = async (file: File): Promise<void> => {
-      let song: Song = {
+      let song: SongType = {
         title: "no title",
         artist: "no artist",
         album: "no album",
-        length: 22,
+        length: 0,
+        filePath: URL.createObjectURL(file),
       };
 
       let tags: Tags = await awaitableJsmediatags(file);

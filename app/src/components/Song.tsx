@@ -1,23 +1,34 @@
+import type { SongType } from "../stores/library";
+import { usePlayerStore } from "../stores/player";
+
 type songProps = {
-  title: string;
-  artist: string;
-  album: string;
-  length: number;
+  song: SongType;
   index: number;
 };
 
-export function Song({ title, artist, album, length, index }: songProps) {
+export function Song({ song, index }: songProps) {
+  const setSelectedSong = usePlayerStore((state) => state.setSelectedSong);
+
+  const handleSongClick = (song: SongType): void => {
+    setSelectedSong(song);
+  };
+
   return (
-    <div className="song-grid  mb-2 grid text-xs  md:text-base xl:mb-4">
-      <div className="">{index}</div>
-      <div className="grid">
-        <p className="">{title}</p>
-        <p className="">{artist}</p>
+    <>
+      <div
+        className="song-grid  mb-2 grid text-xs  hover:cursor-pointer md:text-base xl:mb-4"
+        onClick={() => handleSongClick(song)}
+      >
+        <div className="">{index}</div>
+        <div className="grid">
+          <p className="text-gray-400">{song.title}</p>
+          <p className="">{song.artist}</p>
+        </div>
+        <p className="hidden md:block">{song.album}</p>
+        <div className="">
+          <p>{song.length}</p>
+        </div>
       </div>
-      <p className="hidden md:block">{album}</p>
-      <div className="">
-        <p>{length}</p>
-      </div>
-    </div>
+    </>
   );
 }
