@@ -3,7 +3,7 @@ import type { Tags } from "jsmediatags/types";
 import type { SongType } from "../stores/library";
 
 var jsmediatags = window.jsmediatags;
-export function AddButton() {
+export function AddSongs() {
   const addSongs = useLibraryStore((state) => state.addSongs);
 
   //extract metadata from files
@@ -39,6 +39,7 @@ export function AddButton() {
       album: "no album",
       length: 0,
       filePath: URL.createObjectURL(file),
+      collection: "library",
     };
 
     const tags: Tags = await awaitableJsmediatags(file);

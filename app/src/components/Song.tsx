@@ -1,5 +1,7 @@
+import type { SelectedSongType } from "../stores/player";
 import type { SongType } from "../stores/library";
 import { usePlayerStore } from "../stores/player";
+import { useLibraryStore } from "../stores/library";
 
 type songProps = {
   song: SongType;
@@ -7,18 +9,28 @@ type songProps = {
 };
 
 export function Song({ song, index }: songProps) {
+  const selectedCollection = usePlayerStore(
+    (state) => state.selectedCollection,
+  );
+  const librarySongs = useLibraryStore((state) => state.songs);
   const setSelectedSong = usePlayerStore((state) => state.setSelectedSong);
+  const setSelectedCollection = usePlayerStore(
+    (state) => state.setSelectedCollection,
+  );
   const play = usePlayerStore((state) => state.play);
 
-  const handleSongClick = (song: SongType): void => {
-    setSelectedSong(song);
+  const handleSongClick = (selectedSong: SelectedSongType): void => {
+    setSelectedSong(selectedSong);
+    if (selectedSong.song.collection === "library") {
+      setSelectedCollection({ name: "library", songs: librarySongs });
+    }
   };
 
   return (
     <>
       <div
         className="song-grid  mb-2 grid text-xs  hover:cursor-pointer md:text-base xl:mb-4"
-        onClick={() => handleSongClick(song)}
+        onClick={() => handleSongClick({ index, song })}
         onDoubleClick={() => play()}
       >
         <div className="">{index}</div>

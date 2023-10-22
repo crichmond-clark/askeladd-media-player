@@ -1,4 +1,4 @@
-import { AddButton } from "./AddSongs";
+import { AddSongs } from "./AddSongs";
 
 export function Navbar() {
   return (
@@ -11,7 +11,7 @@ export function Navbar() {
           Playlists
         </button>
         <div className="m-3 ml-auto flex flex-col">
-          <AddButton />
+          <AddSongs />
         </div>
       </div>
     </>

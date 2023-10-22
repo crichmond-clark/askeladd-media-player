@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { create } from "zustand";
 import { songSchema } from "./library";
-import type { SongType } from "./library";
 
 const htmlAudioElementSchema = z.custom(
   (value) => {
@@ -12,26 +11,51 @@ const htmlAudioElementSchema = z.custom(
   },
 );
 
+const selectedSongSchema = z.object({
+  index: z.number(),
+  song: songSchema,
+});
+
+export type SelectedSongType = z.infer<typeof selectedSongSchema>;
+
+const selectedCollectionSchema = z.object({
+  name: z.string(),
+  songs: z.array(songSchema),
+});
+
+export type SelectedCollectionType = z.infer<typeof selectedCollectionSchema>;
+
 const playerSchema = z.object({
-  selectedSong: songSchema,
+  selectedSong: selectedSongSchema,
+  selectedCollection: selectedCollectionSchema,
   isPlaying: z.boolean(),
-  setSelectedSong: z.function().args(songSchema),
-  setIsPlaying: z.function().args(),
   audioElement: htmlAudioElementSchema,
-  setAudioElement: z.function().args(htmlAudioElementSchema),
   play: z.function(),
   playPause: z.function(),
+  nextSong: z.function(),
+  setSelectedSong: z.function().args(selectedSongSchema),
+  setIsPlaying: z.function().args(),
+  setAudioElement: z.function().args(htmlAudioElementSchema),
+  setSelectedCollection: z.function().args(selectedCollectionSchema),
 });
 
 type PlayerState = z.infer<typeof playerSchema>;
 
 export const usePlayerStore = create<PlayerState>()((set) => ({
   selectedSong: {
-    title: "no title",
-    artist: "no artist",
-    album: "no album",
-    length: 22,
-    filePath: "",
+    index: 0,
+    song: {
+      title: "",
+      artist: "",
+      album: "",
+      length: 0,
+      filePath: "",
+      collection: "",
+    },
+  },
+  selectedCollection: {
+    name: "library",
+    songs: [],
   },
   audioElement: document.createElement("audio"),
   isPlaying: false,
@@ -52,8 +76,45 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
       return { isPlaying };
     });
   },
-  setSelectedSong: (song: SongType) => set(() => ({ selectedSong: song })),
+  nextSong: () => {
+    set((state) => {
+      const collectionLength = state.selectedCollection.songs.length;
+      const nextIndex = state.selectedSong.index;
+      const nextSong = state.selectedCollection.songs[nextIndex];
+      const audioElement = state.audioElement as HTMLAudioElement;
+      audioElement.pause();
+      audioElement.currentTime = 0;
+      audioElement.src = nextSong.filePath;
+      audioElement.load();
+
+      // Add an event listener for when the audio is ready to play
+      audioElement.oncanplay = () => {
+        audioElement.play();
+      };
+
+      if (nextIndex + 1 === collectionLength) {
+        return {
+          selectedSong: {
+            index: 0,
+            song: nextSong,
+          },
+        };
+      } else {
+        return {
+          selectedSong: {
+            index: nextIndex + 1,
+            song: nextSong,
+          },
+        };
+      }
+    });
+  },
+
+  setSelectedSong: (song: SelectedSongType) =>
+    set(() => ({ selectedSong: song })),
   setIsPlaying: () => set((state) => ({ isPlaying: !state.isPlaying })),
   setAudioElement: (audioElement: unknown) =>
     set(() => ({ audioElement: audioElement as HTMLAudioElement })),
+  setSelectedCollection: (selectedCollection: SelectedCollectionType) =>
+    set(() => ({ selectedCollection: selectedCollection })),
 }));

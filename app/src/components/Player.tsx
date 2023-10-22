@@ -11,7 +11,7 @@ export function Player() {
     // When selectedSong changes, update the audio source
     if (audioRef.current) {
       audioRef.current.autoplay = false;
-      audioRef.current.src = selectedSong.filePath;
+      audioRef.current.src = selectedSong.song.filePath;
       audioRef.current.load(); // Reload the audio element
       setAudioElement(audioRef.current);
     }
@@ -19,7 +19,7 @@ export function Player() {
 
   return (
     <audio controls ref={audioRef}>
-      <source src={selectedSong.filePath} type="audio/mpeg" />
+      <source src={selectedSong.song.filePath} type="audio/mpeg" />
     </audio>
   );
 }

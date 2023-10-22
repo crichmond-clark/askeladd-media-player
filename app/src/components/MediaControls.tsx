@@ -5,6 +5,7 @@ export function MediaControls() {
   const selectedSong = usePlayerStore((state) => state.selectedSong);
   const isPlaying = usePlayerStore((state) => state.isPlaying);
   const playPause = usePlayerStore((state) => state.playPause);
+  const nextSong = usePlayerStore((state) => state.nextSong);
 
   return (
     <>
@@ -99,7 +100,7 @@ export function MediaControls() {
           </button>
         )}
         {/* next button */}
-        <button className="ml-3 mt-2">
+        <button className="ml-3 mt-2" onClick={() => nextSong()}>
           <svg
             width="41"
             height="62"
