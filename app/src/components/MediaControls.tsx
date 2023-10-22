@@ -1,12 +1,10 @@
-import { useState } from "react";
 import { Player } from "./Player";
-import { useLibraryStore } from "../stores/library";
 import { usePlayerStore } from "../stores/player";
 
 export function MediaControls() {
-  const [isPlaying, setIsPlaying] = useState(false);
   const selectedSong = usePlayerStore((state) => state.selectedSong);
-  const changePlayState = () => setIsPlaying(!isPlaying);
+  const isPlaying = usePlayerStore((state) => state.isPlaying);
+  const playPause = usePlayerStore((state) => state.playPause);
 
   return (
     <>
@@ -69,7 +67,7 @@ export function MediaControls() {
 
         {!isPlaying ? (
           /* play button */
-          <button onClick={changePlayState}>
+          <button onClick={playPause}>
             <svg
               width="77"
               height="77"
@@ -86,7 +84,7 @@ export function MediaControls() {
           </button>
         ) : (
           /* pause button */
-          <button onClick={changePlayState}>
+          <button onClick={playPause}>
             <svg
               width="77"
               height="77"

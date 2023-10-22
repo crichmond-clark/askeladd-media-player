@@ -8,6 +8,7 @@ type songProps = {
 
 export function Song({ song, index }: songProps) {
   const setSelectedSong = usePlayerStore((state) => state.setSelectedSong);
+  const play = usePlayerStore((state) => state.play);
 
   const handleSongClick = (song: SongType): void => {
     setSelectedSong(song);
@@ -18,6 +19,7 @@ export function Song({ song, index }: songProps) {
       <div
         className="song-grid  mb-2 grid text-xs  hover:cursor-pointer md:text-base xl:mb-4"
         onClick={() => handleSongClick(song)}
+        onDoubleClick={() => play()}
       >
         <div className="">{index}</div>
         <div className="grid">

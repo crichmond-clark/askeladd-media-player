@@ -6,59 +6,59 @@ var jsmediatags = window.jsmediatags;
 export function AddButton() {
   const addSongs = useLibraryStore((state) => state.addSongs);
 
+  //extract metadata from files
+  const awaitableJsmediatags = (file: File): Promise<Tags> => {
+    return new Promise(function (resolve, reject) {
+      jsmediatags.read(file, {
+        onSuccess: function (tag) {
+          resolve(tag.tags);
+        },
+        onError: function (error) {
+          reject(error);
+        },
+      });
+    });
+  };
+
+  //create a new audio element and get the duration of the file
+  const getAudioDuration = (file: File): Promise<number> => {
+    return new Promise((resolve) => {
+      const audio = new Audio(URL.createObjectURL(file));
+      audio.addEventListener("canplaythrough", () => {
+        const seconds = audio.duration;
+        resolve(seconds);
+      });
+    });
+  };
+
+  //extract metadata, create a new sopng and add it to the library
+  const extractMetadata = async (file: File): Promise<void> => {
+    const song: SongType = {
+      title: "no title",
+      artist: "no artist",
+      album: "no album",
+      length: 0,
+      filePath: URL.createObjectURL(file),
+    };
+
+    const tags: Tags = await awaitableJsmediatags(file);
+
+    song.title = tags.title || "";
+    song.artist = tags.artist || "";
+    song.album = tags.album || "";
+
+    song.length = await getAudioDuration(file);
+
+    addSongs(song);
+  };
+
   const handleFileSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const filesList = [...(event.target.files || [])];
 
-    //extract metadata from files
-    const awaitableJsmediatags = (file: File): Promise<Tags> => {
-      return new Promise(function (resolve, reject) {
-        jsmediatags.read(file, {
-          onSuccess: function (tag) {
-            resolve(tag.tags);
-          },
-          onError: function (error) {
-            reject(error);
-          },
-        });
-      });
-    };
-
-    //create a new audio element and get the duration of the file
-    const getAudioDuration = (file: File): Promise<number> => {
-      return new Promise((resolve) => {
-        const audio = new Audio(URL.createObjectURL(file));
-        audio.addEventListener("canplaythrough", () => {
-          const seconds = audio.duration;
-          resolve(seconds);
-        });
-      });
-    };
-
-    //extract metadata, create a new sopng and add it to the library
-    const extractMetadata = async (file: File): Promise<void> => {
-      let song: SongType = {
-        title: "no title",
-        artist: "no artist",
-        album: "no album",
-        length: 0,
-        filePath: URL.createObjectURL(file),
-      };
-
-      let tags: Tags = await awaitableJsmediatags(file);
-
-      song.title = tags.title || "";
-      song.artist = tags.artist || "";
-      song.album = tags.album || "";
-
-      song.length = await getAudioDuration(file);
-
-      addSongs(song);
-    };
-
     for (const file of filesList) {
-      await extractMetadata(file); // Wait for metadata extraction to finish before moving to the next file
+      await extractMetadata(file);
     }
   };
 
