@@ -3,16 +3,25 @@ import { AddSongs } from "./AddSongs";
 import { AddPlaylist } from "./AddPlaylist";
 import { Library } from "./Library";
 import { PlaylistMenu } from "./PlaylistMenu";
+import { Playlist } from "./Playlist";
 export function Navbar() {
   return (
     <>
       <div className="flex">
-        <button className="ease-linea m-3 rounded px-4 py-2 text-grey-text transition-all duration-75 hover:bg-grey-light">
-          <Link to="/">Library</Link>
-        </button>
-        <button className="ease-linea m-3 rounded px-4 py-2 text-grey-text transition-all duration-75 hover:bg-grey-light">
-          <Link to="/playlists">Playlists</Link>
-        </button>
+        <Link
+          to="/"
+          className="ease-linea m-3 max-h-11 rounded px-4 py-2 text-grey-text transition-all duration-75 hover:bg-grey-light"
+        >
+          Library
+        </Link>
+
+        <Link
+          to="/playlists"
+          className="ease-linea m-3 max-h-11 rounded px-4 py-2 text-grey-text transition-all duration-75 hover:bg-grey-light"
+        >
+          Playlists
+        </Link>
+
         <div className="m-3 ml-auto flex flex-col">
           <AddSongs />
         </div>
@@ -24,6 +33,7 @@ export function Navbar() {
       <Routes>
         <Route path="/" element={<Library />} />
         <Route path="/playlists" element={<PlaylistMenu />} />
+        <Route path="/playlists/:name" element={<Playlist />} />
       </Routes>
     </>
   );

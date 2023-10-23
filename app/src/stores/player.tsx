@@ -43,6 +43,7 @@ const playerSchema = z.object({
 type PlayerState = z.infer<typeof playerSchema>;
 
 export const usePlayerStore = create<PlayerState>()((set) => ({
+  //initial state
   selectedSong: {
     index: 0,
     song: {
@@ -60,6 +61,7 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
   },
   audioElement: document.createElement("audio"),
   isPlaying: false,
+  //player control functions
   play: () => {
     set((state: PlayerState) => {
       (state.audioElement as HTMLAudioElement).pause();
@@ -125,6 +127,7 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
       };
     });
   },
+  //set state functions
   setSelectedSong: (song: SelectedSongType) =>
     set(() => ({ selectedSong: song })),
   setIsPlaying: () => set((state) => ({ isPlaying: !state.isPlaying })),

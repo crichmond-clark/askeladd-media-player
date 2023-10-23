@@ -1,8 +1,8 @@
-import { useLibraryStore } from "../stores/library";
+import { usePlayerStore } from "../stores/player";
 import { Song } from "./Song";
 
 export function Playlist() {
-  const songs = useLibraryStore((state) => state.songs);
+  const songs = usePlayerStore((state) => state.selectedCollection.songs);
 
   return (
     <div className="mx-2 my-12 grid place-items-center">
