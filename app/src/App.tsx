@@ -1,8 +1,6 @@
 import { MediaControls } from "./components/MediaControls";
 import { Navbar } from "./components/Navbar";
 
-import { PlaylistMenu } from "./components/PlaylistMenu";
-
 function App() {
   return (
     <>

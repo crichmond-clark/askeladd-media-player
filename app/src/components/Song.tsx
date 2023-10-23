@@ -9,9 +9,6 @@ type songProps = {
 };
 
 export function Song({ song, index }: songProps) {
-  const selectedCollection = usePlayerStore(
-    (state) => state.selectedCollection,
-  );
   const librarySongs = useLibraryStore((state) => state.songs);
   const setSelectedSong = usePlayerStore((state) => state.setSelectedSong);
   const setSelectedCollection = usePlayerStore(
