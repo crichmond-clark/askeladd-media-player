@@ -19,9 +19,13 @@
     "@types/jsmediatags": "^3.9.4",
     "fastify": "^4.24.2",
     "jsmediatags": "^3.9.7",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.1",
     "music-metadata-browser": "^2.5.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.17.0",
+    "sort-by": "^1.2.0",
     "zod": "^3.22.4",
     "zustand": "^4.4.3"
   },

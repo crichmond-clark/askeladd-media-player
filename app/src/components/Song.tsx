@@ -33,7 +33,7 @@ export function Song({ song, index }: songProps) {
         onClick={() => handleSongClick({ index, song })}
         onDoubleClick={() => play()}
       >
-        <div className="">{index}</div>
+        <div className="">{index + 1}</div>
         <div className="grid">
           <p className="text-gray-400">{song.title}</p>
           <p className="">{song.artist}</p>

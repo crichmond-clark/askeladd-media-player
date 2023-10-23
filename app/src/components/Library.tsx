@@ -8,7 +8,7 @@ export function Library() {
     <div className="mx-2 my-12 grid place-items-center">
       {songs.map((song, index) => (
         <div key={index}>
-          <Song song={song} index={index + 1} />
+          <Song song={song} index={index} />
         </div>
       ))}
     </div>

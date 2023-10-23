@@ -1,7 +1,7 @@
 import { useLibraryStore } from "../stores/library";
 import { Song } from "./Song";
 
-export function Library() {
+export function Playlist() {
   const songs = useLibraryStore((state) => state.songs);
 
   return (

@@ -6,13 +6,14 @@ export function MediaControls() {
   const isPlaying = usePlayerStore((state) => state.isPlaying);
   const playPause = usePlayerStore((state) => state.playPause);
   const nextSong = usePlayerStore((state) => state.nextSong);
+  const prevSong = usePlayerStore((state) => state.prevSong);
 
   return (
     <>
       {selectedSong && <Player />}
       <div className="mt-auto flex h-28 place-content-center items-center bg-grey-dark">
         {/* previous button */}
-        <button className="mr-3 mt-2">
+        <button className="mr-3 mt-2" onClick={() => prevSong()}>
           <svg
             width="42"
             height="62"

@@ -33,6 +33,7 @@ const playerSchema = z.object({
   play: z.function(),
   playPause: z.function(),
   nextSong: z.function(),
+  prevSong: z.function(),
   setSelectedSong: z.function().args(selectedSongSchema),
   setIsPlaying: z.function().args(),
   setAudioElement: z.function().args(htmlAudioElementSchema),
@@ -78,8 +79,7 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
   },
   nextSong: () => {
     set((state) => {
-      const collectionLength = state.selectedCollection.songs.length;
-      const nextIndex = state.selectedSong.index;
+      const nextIndex = state.selectedSong.index + 1;
       const nextSong = state.selectedCollection.songs[nextIndex];
       const audioElement = state.audioElement as HTMLAudioElement;
       audioElement.pause();
@@ -92,24 +92,39 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
         audioElement.play();
       };
 
-      if (nextIndex + 1 === collectionLength) {
-        return {
-          selectedSong: {
-            index: 0,
-            song: nextSong,
-          },
-        };
-      } else {
-        return {
-          selectedSong: {
-            index: nextIndex + 1,
-            song: nextSong,
-          },
-        };
-      }
+      return {
+        selectedSong: {
+          index: nextIndex,
+          song: nextSong,
+        },
+        isPlaying: true,
+      };
     });
   },
+  prevSong: () => {
+    set((state) => {
+      const prevIndex = state.selectedSong.index - 1;
+      const prevSong = state.selectedCollection.songs[prevIndex];
+      const audioElement = state.audioElement as HTMLAudioElement;
+      audioElement.pause();
+      audioElement.currentTime = 0;
+      audioElement.src = prevSong.filePath;
+      audioElement.load();
 
+      // Add an event listener for when the audio is ready to play
+      audioElement.oncanplay = () => {
+        audioElement.play();
+      };
+
+      return {
+        selectedSong: {
+          index: prevIndex,
+          song: prevSong,
+        },
+        isPlaying: true,
+      };
+    });
+  },
   setSelectedSong: (song: SelectedSongType) =>
     set(() => ({ selectedSong: song })),
   setIsPlaying: () => set((state) => ({ isPlaying: !state.isPlaying })),

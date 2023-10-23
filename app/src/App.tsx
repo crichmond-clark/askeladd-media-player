@@ -1,14 +1,17 @@
 import { MediaControls } from "./components/MediaControls";
 import { Navbar } from "./components/Navbar";
-import { Library } from "./components/Library";
+
+import { PlaylistMenu } from "./components/PlaylistMenu";
 
 function App() {
   return (
-    <main className="flex h-screen flex-col bg-grey-base">
-      <Navbar />
-      <Library />
-      <MediaControls />
-    </main>
+    <>
+      <main className="flex h-screen flex-col bg-grey-base">
+        <Navbar />
+
+        <MediaControls />
+      </main>
+    </>
   );
 }
 
