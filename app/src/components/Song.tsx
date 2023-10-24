@@ -26,7 +26,7 @@ export function Song({ song, index }: songProps) {
   return (
     <>
       <div
-        className="song-grid  mb-2 grid text-xs  hover:cursor-pointer md:text-base xl:mb-4"
+        className="song-grid grid text-xs  hover:cursor-pointer md:text-base"
         onClick={() => handleSongClick({ index, song })}
         onDoubleClick={() => play()}
       >

@@ -21,9 +21,10 @@ export type playlistType = z.infer<typeof playlistSchema>;
 
 const librarySchema = z.object({
   songs: z.array(songSchema),
-  playlists: z.array(playlistSchema),
+  playlists: z.record(playlistSchema),
   addSongs: z.function().args(songSchema),
   addPlaylist: z.function().args(playlistSchema),
+  addSongToPlaylist: z.function().args(z.string(), songSchema),
 });
 
 type LibraryState = z.infer<typeof librarySchema>;
@@ -32,9 +33,25 @@ const songs: SongType[] = [];
 
 export const useLibraryStore = create<LibraryState>((set) => ({
   songs,
-  playlists: [],
+  playlists: {},
+
   addSongs: (songsArray) =>
     set((state) => ({ songs: [...state.songs, songsArray] })),
   addPlaylist: (playlist) =>
-    set((state) => ({ playlists: [...state.playlists, playlist] })),
+    set((state) => ({
+      playlists: {
+        ...state.playlists,
+        [playlist.name]: playlist,
+      },
+    })),
+  addSongToPlaylist: (playlistName, song) =>
+    set((state) => ({
+      playlists: {
+        ...state.playlists,
+        [playlistName]: {
+          ...state.playlists[playlistName],
+          songs: [...state.playlists[playlistName].songs, song],
+        },
+      },
+    })),
 }));

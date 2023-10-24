@@ -2,8 +2,10 @@ import { Route, Routes, Link } from "react-router-dom";
 import { AddSongs } from "./AddSongs";
 import { AddPlaylist } from "./AddPlaylist";
 import { Library } from "./Library";
+import { LibraryPlaylist } from "./LibraryPlaylist";
 import { PlaylistMenu } from "./PlaylistMenu";
 import { Playlist } from "./Playlist";
+
 export function Navbar() {
   return (
     <>
@@ -34,6 +36,7 @@ export function Navbar() {
         <Route path="/" element={<Library />} />
         <Route path="/playlists" element={<PlaylistMenu />} />
         <Route path="/playlists/:name" element={<Playlist />} />
+        <Route path="/add-to-playlist" element={<LibraryPlaylist />} />
       </Routes>
     </>
   );
