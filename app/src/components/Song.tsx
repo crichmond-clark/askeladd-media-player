@@ -29,7 +29,7 @@ export function Song({ song, index }: songProps) {
   return (
     <>
       <div
-        className="song-grid grid rounded  p-2 text-xs hover:cursor-pointer hover:bg-grey-dark focus:bg-grey-dark md:text-base"
+        className="song-grid grid items-center  rounded p-2 text-xs hover:cursor-pointer hover:bg-grey-dark focus:bg-grey-dark md:text-base"
         onDoubleClick={() => handleSongDbClick({ index, song })}
       >
         <div className="">{index + 1}</div>
@@ -38,7 +38,7 @@ export function Song({ song, index }: songProps) {
           <p className="">{song.artist}</p>
         </div>
         <p className="hidden md:block">{song.album}</p>
-        <div className="">
+        <div className="justify-self-end">
           <p>
             {Math.floor(song.length / 60)}:
             {String(Math.round(song.length % 60)).padStart(2, "0")}

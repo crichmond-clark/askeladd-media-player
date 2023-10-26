@@ -32,9 +32,10 @@ export function LibraryPlaylist() {
       </Link>
       <div className="mx-2 my-12 grid place-items-center">
         {songs.map((song, index) => (
-          <div key={index} className="mb-2 flex items-start">
+          <div key={index} className="mb-2 flex items-center">
             <Song song={song} index={index} />
             <button
+              className="ml-4"
               onClick={() =>
                 addSongSetCollection(selectedCollection.name, song)
               }
