@@ -16,19 +16,21 @@ export function Song({ song, index }: songProps) {
   );
   const play = usePlayerStore((state) => state.play);
 
-  const handleSongClick = (selectedSong: SelectedSongType): void => {
-    setSelectedSong(selectedSong);
+  const handleSongDbClick = async (
+    selectedSong: SelectedSongType,
+  ): Promise<void> => {
+    await setSelectedSong(selectedSong);
     if (selectedSong.song.collection === "library") {
-      setSelectedCollection({ name: "library", songs: librarySongs });
+      await setSelectedCollection({ name: "library", songs: librarySongs });
     }
+    await play();
   };
 
   return (
     <>
       <div
-        className="song-grid grid text-xs  hover:cursor-pointer md:text-base"
-        onClick={() => handleSongClick({ index, song })}
-        onDoubleClick={() => play()}
+        className="song-grid grid rounded  p-2 text-xs hover:cursor-pointer hover:bg-grey-dark focus:bg-grey-dark md:text-base"
+        onDoubleClick={() => handleSongDbClick({ index, song })}
       >
         <div className="">{index + 1}</div>
         <div className="grid">
@@ -37,7 +39,10 @@ export function Song({ song, index }: songProps) {
         </div>
         <p className="hidden md:block">{song.album}</p>
         <div className="">
-          <p>{song.length}</p>
+          <p>
+            {Math.floor(song.length / 60)}:
+            {String(Math.round(song.length % 60)).padStart(2, "0")}
+          </p>
         </div>
       </div>
     </>

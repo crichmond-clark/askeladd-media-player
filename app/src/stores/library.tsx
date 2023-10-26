@@ -50,7 +50,10 @@ export const useLibraryStore = create<LibraryState>((set) => ({
         ...state.playlists,
         [playlistName]: {
           ...state.playlists[playlistName],
-          songs: [...state.playlists[playlistName].songs, song],
+          songs: [
+            ...state.playlists[playlistName].songs,
+            { ...song, collection: playlistName },
+          ],
         },
       },
     })),

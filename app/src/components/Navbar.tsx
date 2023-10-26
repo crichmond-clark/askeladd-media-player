@@ -23,13 +23,14 @@ export function Navbar() {
         >
           Playlists
         </Link>
-
-        <div className="m-3 ml-auto flex flex-col">
-          <AddSongs />
-        </div>
-        <div className="m-3 ml-auto flex flex-col">
-          <AddPlaylist />
-          <p>playlists</p>
+        <div className="ml-auto flex">
+          <div className="m-3 ml-auto flex flex-col">
+            <AddSongs />
+          </div>
+          <div className="m-3 ml-auto flex flex-col">
+            <AddPlaylist />
+            <p>playlists</p>
+          </div>
         </div>
       </div>
       <Routes>
