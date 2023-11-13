@@ -38,6 +38,8 @@ const playerSchema = z.object({
   setCurrentTime: z.function().args(z.number()),
   duration: z.number(),
   setDuration: z.function().args(z.number()),
+  volume: z.number(),
+  setVolume: z.function().args(z.number()),
   play: z.function(),
   playPause: z.function(),
   nextSong: z.function(),
@@ -77,6 +79,8 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
     set(() => ({ currentTime: currentTime })),
   duration: 0,
   setDuration: (duration: number) => set(() => ({ duration: duration })),
+  volume: 1,
+  setVolume: (volume: number) => set(() => ({ volume: volume })),
   //player control functions
   play: () => {
     set((state: PlayerState) => {
