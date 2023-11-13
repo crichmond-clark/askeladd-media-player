@@ -29,7 +29,7 @@
 }
 
 .volume-bar::-webkit-slider-thumb {
-  @apply appearance-none h-2 w-2 bg-grey-500 rounded-full cursor-pointer;
+  @apply appearance-none h-2 w-2 bg-grey-text rounded-full cursor-pointer;
 }
 .volume-bar:hover::-webkit-slider-thumb {
   @apply  h-3 w-3;
