@@ -27,17 +27,21 @@ export type SelectedCollectionType = z.infer<typeof selectedCollectionSchema>;
 
 const playerSchema = z.object({
   selectedSong: selectedSongSchema,
+  setSelectedSong: z.function().args(selectedSongSchema),
   selectedCollection: selectedCollectionSchema,
+  setSelectedCollection: z.function().args(selectedCollectionSchema),
   isPlaying: z.boolean(),
+  setIsPlaying: z.function().args(),
   audioElement: htmlAudioElementSchema,
+  setAudioElement: z.function().args(htmlAudioElementSchema),
+  currentTime: z.number(),
+  setCurrentTime: z.function().args(z.number()),
+  duration: z.number(),
+  setDuration: z.function().args(z.number()),
   play: z.function(),
   playPause: z.function(),
   nextSong: z.function(),
   prevSong: z.function(),
-  setSelectedSong: z.function().args(selectedSongSchema),
-  setIsPlaying: z.function().args(),
-  setAudioElement: z.function().args(htmlAudioElementSchema),
-  setSelectedCollection: z.function().args(selectedCollectionSchema),
 });
 
 type PlayerState = z.infer<typeof playerSchema>;
@@ -55,12 +59,24 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
       collection: "",
     },
   },
+  setSelectedSong: (song: SelectedSongType) =>
+    set(() => ({ selectedSong: song })),
   selectedCollection: {
     name: "library",
     songs: [],
   },
+  setSelectedCollection: (selectedCollection: SelectedCollectionType) =>
+    set(() => ({ selectedCollection: selectedCollection })),
   audioElement: document.createElement("audio"),
+  setAudioElement: (audioElement: unknown) =>
+    set(() => ({ audioElement: audioElement as HTMLAudioElement })),
   isPlaying: false,
+  setIsPlaying: () => set((state) => ({ isPlaying: !state.isPlaying })),
+  currentTime: 0,
+  setCurrentTime: (currentTime: number) =>
+    set(() => ({ currentTime: currentTime })),
+  duration: 0,
+  setDuration: (duration: number) => set(() => ({ duration: duration })),
   //player control functions
   play: () => {
     set((state: PlayerState) => {
@@ -127,12 +143,4 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
       };
     });
   },
-  //set state functions
-  setSelectedSong: (song: SelectedSongType) =>
-    set(() => ({ selectedSong: song })),
-  setIsPlaying: () => set((state) => ({ isPlaying: !state.isPlaying })),
-  setAudioElement: (audioElement: unknown) =>
-    set(() => ({ audioElement: audioElement as HTMLAudioElement })),
-  setSelectedCollection: (selectedCollection: SelectedCollectionType) =>
-    set(() => ({ selectedCollection: selectedCollection })),
 }));

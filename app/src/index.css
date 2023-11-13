@@ -3,28 +3,44 @@
 @tailwind utilities;
 
 
+
 @layer base {
-    body {
-        @apply text-grey-text
-    }
+  body {
+    @apply text-grey-text
+  }
 }
 
+.progress-bar::-webkit-slider-thumb {
+  @apply appearance-none h-2 w-2 bg-grey-text rounded-full cursor-pointer;
+}
 
+.progress-bar {
+  background: linear-gradient(
+    to right, 
+    #7C7C7C 0%, 
+    #7C7C7C calc(var(--fill-percent) + .3%), 
+    rgba(217, 217, 217, .1) calc(var(--fill-percent) + .3%), 
+    rgba(217, 217, 217, .1) 100%
+  );;
+}
 
+.progress-bar:hover::-webkit-slider-thumb  {
+  @apply appearance-none h-3 w-3 bg-grey-text rounded-full cursor-pointer;
+}
 
 .song-grid {
     grid-template-columns: [index] 16px [first] 4fr  [last] minmax(60px,1fr);
 }
 
-
 @media(min-width: 400px) {
-    .song-grid {
-        grid-template-columns: [index] 16px [first] 2fr [last] minmax(100px,1fr);
-    }
+  .song-grid {
+    grid-template-columns: [index] 16px [first] 2fr [last] minmax(100px,1fr);
+  }
 }
 
 @media(min-width: 768px) {
-    .song-grid {
-        grid-template-columns: [index] 16px [first] 3fr [var1] 2fr  [last] minmax(100px,1fr);
-    }
+  .song-grid {
+    grid-template-columns: [index] 16px [first] 3fr [var1] 2fr  [last] minmax(100px,1fr);
+  }
 }
+
