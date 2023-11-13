@@ -44,8 +44,8 @@ export function MediaControls() {
   return (
     <>
       {selectedSong && <Player />}
-      <div className="mt-auto grid h-fit grid-cols-3 bg-grey-dark py-4">
-        <div className="col-start-2 flex flex-col items-center justify-center">
+      <div className="mt-auto grid h-fit  bg-grey-dark py-4 md:grid-cols-3">
+        <div className="flex flex-col items-center justify-center md:col-start-2">
           <div>
             {/* previous button */}
             <button className="mr-3 mt-2" onClick={() => prevSong()}>
@@ -191,7 +191,7 @@ export function MediaControls() {
             </button>
           </div>
 
-          <div className="flex w-full items-center  px-4 xl:px-0">
+          <div className="flex items-center px-4  md:w-full xl:px-0">
             <p>
               {Math.floor(currentTime / 60)}:
               {String(Math.round(currentTime % 60)).padStart(2, "0")}
@@ -214,7 +214,7 @@ export function MediaControls() {
           </div>
         </div>
 
-        <div className="col-start-3 flex items-center place-self-center">
+        <div className="mt-6 flex items-center place-self-center md:mt-0 lg:col-start-3">
           <MdOutlineVolumeUp />
           <input
             type="range"
