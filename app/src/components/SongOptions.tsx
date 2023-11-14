@@ -1,7 +1,7 @@
-import { ChangeEvent, FormEvent, useState, useRef, useEffect } from "react";
+import { ChangeEvent } from "react";
 import { SlOptionsVertical } from "react-icons/sl";
 import { useLibraryStore } from "../stores/library";
-import { usePlayerStore } from "../stores/player";
+
 import type { SongType } from "../stores/library";
 
 type SongOptionsProps = {
@@ -17,9 +17,6 @@ export function SongOptions({
   song,
   index,
 }: SongOptionsProps) {
-  const setSelectedPlaylist = usePlayerStore(
-    (state) => state.setSelectedPlaylist,
-  );
   const playlists = useLibraryStore((state) => state.playlists);
   const addSongToPlaylist = useLibraryStore((state) => state.addSongToPlaylist);
   const removeSongFromPlaylist = useLibraryStore(
@@ -46,11 +43,7 @@ export function SongOptions({
   return (
     <>
       <div className="dropdown">
-        <label
-          tabIndex={0}
-          className="cursor-pointer"
-          onClick={() => console.log(song)}
-        >
+        <label tabIndex={0} className="cursor-pointer">
           <SlOptionsVertical />
         </label>
         <ul
