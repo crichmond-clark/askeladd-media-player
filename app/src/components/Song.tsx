@@ -1,7 +1,6 @@
 import type { SelectedSongType } from "../stores/player";
 import type { SongType } from "../stores/library";
 import { usePlayerStore } from "../stores/player";
-import { useLibraryStore } from "../stores/library";
 
 type songProps = {
   song: SongType;
@@ -9,10 +8,9 @@ type songProps = {
 };
 
 export function Song({ song, index }: songProps) {
-  const librarySongs = useLibraryStore((state) => state.songs);
   const setSelectedSong = usePlayerStore((state) => state.setSelectedSong);
-  const setSelectedCollection = usePlayerStore(
-    (state) => state.setSelectedCollection,
+  const setSelectedPlaylist = usePlayerStore(
+    (state) => state.setSelectedPlaylist,
   );
   const play = usePlayerStore((state) => state.play);
 
@@ -21,7 +19,7 @@ export function Song({ song, index }: songProps) {
   ): Promise<void> => {
     await setSelectedSong(selectedSong);
     if (selectedSong.song.collection === "library") {
-      await setSelectedCollection({ name: "library", songs: librarySongs });
+      await setSelectedPlaylist("library");
     }
     await play();
   };
@@ -29,7 +27,7 @@ export function Song({ song, index }: songProps) {
   return (
     <>
       <div
-        className="song-grid grid items-center  rounded p-2 text-xs hover:cursor-pointer hover:bg-grey-dark focus:bg-grey-dark md:text-base"
+        className="song-grid grid items-center  rounded p-2 text-xs hover:cursor-pointer"
         onDoubleClick={() => handleSongDbClick({ index, song })}
       >
         <div className="">{index + 1}</div>

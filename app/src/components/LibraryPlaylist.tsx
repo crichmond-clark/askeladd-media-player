@@ -7,19 +7,17 @@ import type { SongType } from "../stores/library";
 export function LibraryPlaylist() {
   const songs = useLibraryStore((state) => state.songs);
   const addSongToPlaylist = useLibraryStore((state) => state.addSongToPlaylist);
-  const selectedCollection = usePlayerStore(
-    (state) => state.selectedCollection,
-  );
-  const setSelectedCollection = usePlayerStore(
-    (state) => state.setSelectedCollection,
+  const selectedPlaylist = usePlayerStore((state) => state.selectedPlaylist);
+  const setSelectedPlaylist = usePlayerStore(
+    (state) => state.setSelectedPlaylist,
   );
   const playlist = useLibraryStore(
-    (state) => state.playlists[selectedCollection.name],
+    (state) => state.playlists[selectedPlaylist.name],
   );
 
   const addSongSetCollection = (playlistName: string, song: SongType) => {
     addSongToPlaylist(playlistName, song);
-    setSelectedCollection({
+    setSelectedPlaylist({
       name: playlistName,
       songs: [...playlist.songs, song],
     });
@@ -27,7 +25,7 @@ export function LibraryPlaylist() {
 
   return (
     <>
-      <Link to={`/playlists/${selectedCollection.name}`} className="mb-6">
+      <Link to={`/playlists/${selectedPlaylist.name}`} className="mb-6">
         back to playlist
       </Link>
       <div className="mx-2 my-12 grid place-items-center">
@@ -36,9 +34,7 @@ export function LibraryPlaylist() {
             <Song song={song} index={index} />
             <button
               className="ml-4"
-              onClick={() =>
-                addSongSetCollection(selectedCollection.name, song)
-              }
+              onClick={() => addSongSetCollection(selectedPlaylist.name, song)}
             >
               <svg
                 className="w-12"

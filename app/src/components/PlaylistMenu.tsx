@@ -7,8 +7,8 @@ import autoAnimate from "@formkit/auto-animate";
 export function PlaylistMenu() {
   const playlists = useLibraryStore((state) => state.playlists);
   const playlistNames = Object.keys(playlists);
-  const setSelectedCollection = usePlayerStore(
-    (state) => state.setSelectedCollection,
+  const setSelectedPlaylist = usePlayerStore(
+    (state) => state.setSelectedPlaylist,
   );
   const parent = useRef(null);
 
@@ -17,7 +17,7 @@ export function PlaylistMenu() {
   }, [parent]);
 
   const handleSetPlaylist = (playlistName: string) => {
-    setSelectedCollection(playlists[playlistName]);
+    setSelectedPlaylist(playlistName);
   };
   return (
     <>

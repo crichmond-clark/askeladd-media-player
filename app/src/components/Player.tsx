@@ -23,7 +23,7 @@ export function Player() {
         // Calculate the percentage of the song that has been played
         const fillPercent =
           (audioRef.current!.currentTime / audioRef.current!.duration) * 100;
-        // Update the --webkit-fill-percent CSS variable
+        // Update the --fill-percent CSS variable
         requestAnimationFrame(() => {
           document.documentElement.style.setProperty(
             "--fill-percent",

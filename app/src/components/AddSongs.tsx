@@ -1,6 +1,7 @@
 import { useLibraryStore } from "../stores/library";
 import type { Tags } from "jsmediatags/types";
 import type { SongType } from "../stores/library";
+import { v4 as uuidv4 } from "uuid";
 
 var jsmediatags = window.jsmediatags;
 export function AddSongs() {
@@ -34,6 +35,7 @@ export function AddSongs() {
   //extract metadata, create a new sopng and add it to the library
   const extractMetadata = async (file: File): Promise<void> => {
     const song: SongType = {
+      id: uuidv4(),
       title: "no title",
       artist: "no artist",
       album: "no album",

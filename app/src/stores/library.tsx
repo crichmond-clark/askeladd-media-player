@@ -8,6 +8,7 @@ export const songSchema = z.object({
   length: z.number(),
   filePath: z.string(),
   collection: z.string(),
+  id: z.string().uuid(),
 });
 
 export type SongType = z.infer<typeof songSchema>;
@@ -25,6 +26,7 @@ const librarySchema = z.object({
   addSongs: z.function().args(songSchema),
   addPlaylist: z.function().args(playlistSchema),
   addSongToPlaylist: z.function().args(z.string(), songSchema),
+  removeSongFromPlaylist: z.function().args(z.string(), z.string().uuid()),
 });
 
 type LibraryState = z.infer<typeof librarySchema>;
@@ -54,6 +56,18 @@ export const useLibraryStore = create<LibraryState>((set) => ({
             ...state.playlists[playlistName].songs,
             { ...song, collection: playlistName },
           ],
+        },
+      },
+    })),
+  removeSongFromPlaylist: (playlistName, songId) =>
+    set((state) => ({
+      playlists: {
+        ...state.playlists,
+        [playlistName]: {
+          ...state.playlists[playlistName],
+          songs: state.playlists[playlistName].songs.filter(
+            (song) => song.id !== songId,
+          ),
         },
       },
     })),

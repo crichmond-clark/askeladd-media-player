@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { create } from "zustand";
 import { songSchema } from "./library";
+import { useLibraryStore } from "./library";
 
 const htmlAudioElementSchema = z.custom(
   (value) => {
@@ -18,18 +19,18 @@ const selectedSongSchema = z.object({
 
 export type SelectedSongType = z.infer<typeof selectedSongSchema>;
 
-const selectedCollectionSchema = z.object({
+const selectedPlaylistSchema = z.object({
   name: z.string(),
   songs: z.array(songSchema),
 });
 
-export type SelectedCollectionType = z.infer<typeof selectedCollectionSchema>;
+export type selectedPlaylistType = z.infer<typeof selectedPlaylistSchema>;
 
 const playerSchema = z.object({
   selectedSong: selectedSongSchema,
   setSelectedSong: z.function().args(selectedSongSchema),
-  selectedCollection: selectedCollectionSchema,
-  setSelectedCollection: z.function().args(selectedCollectionSchema),
+  selectedPlaylist: z.string(),
+  setSelectedPlaylist: z.function().args(z.string()),
   isPlaying: z.boolean(),
   setIsPlaying: z.function().args(),
   audioElement: htmlAudioElementSchema,
@@ -63,12 +64,9 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
   },
   setSelectedSong: (song: SelectedSongType) =>
     set(() => ({ selectedSong: song })),
-  selectedCollection: {
-    name: "library",
-    songs: [],
-  },
-  setSelectedCollection: (selectedCollection: SelectedCollectionType) =>
-    set(() => ({ selectedCollection: selectedCollection })),
+  selectedPlaylist: "library",
+  setSelectedPlaylist: (selectedPlaylist: string) =>
+    set(() => ({ selectedPlaylist: selectedPlaylist })),
   audioElement: document.createElement("audio"),
   setAudioElement: (audioElement: unknown) =>
     set(() => ({ audioElement: audioElement as HTMLAudioElement })),
@@ -101,8 +99,12 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
   },
   nextSong: () => {
     set((state) => {
+      const songsArray =
+        state.selectedPlaylist === "library"
+          ? useLibraryStore.getState().songs
+          : useLibraryStore.getState().playlists[state.selectedPlaylist].songs;
       const nextIndex = state.selectedSong.index + 1;
-      const nextSong = state.selectedCollection.songs[nextIndex];
+      const nextSong = songsArray[nextIndex];
       const audioElement = state.audioElement as HTMLAudioElement;
       audioElement.pause();
       audioElement.currentTime = 0;
@@ -125,8 +127,12 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
   },
   prevSong: () => {
     set((state) => {
+      const songsArray =
+        state.selectedPlaylist === "library"
+          ? useLibraryStore.getState().songs
+          : useLibraryStore.getState().playlists[state.selectedPlaylist].songs;
       const prevIndex = state.selectedSong.index - 1;
-      const prevSong = state.selectedCollection.songs[prevIndex];
+      const prevSong = songsArray[prevIndex];
       const audioElement = state.audioElement as HTMLAudioElement;
       audioElement.pause();
       audioElement.currentTime = 0;
