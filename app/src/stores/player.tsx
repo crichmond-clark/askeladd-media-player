@@ -93,6 +93,9 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
   shuffleIndexArray: [],
   setShuffleIndexArray: () => {
     set((state) => {
+      if (state.shuffleIndexArray.length > 0) {
+        return { shuffleIndexArray: [] };
+      }
       const songsArray =
         state.selectedPlaylist === "library"
           ? useLibraryStore.getState().songs

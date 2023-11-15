@@ -23,6 +23,7 @@ export function MediaControls() {
   );
   const isRepeat = usePlayerStore((state) => state.isRepeat);
   const setIsRepeat = usePlayerStore((state) => state.setIsRepeat);
+  const shuffleIndexArray = usePlayerStore((state) => state.shuffleIndexArray);
   const handleProgressBarChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!audioElement) return;
 
@@ -194,16 +195,22 @@ export function MediaControls() {
                 </defs>
               </svg>
             </button>
+          </div>
 
-            <div>
-              {isRepeat && <h1>mango</h1>}
-              <IoShuffleOutline
-                className="cursor-pointer"
-                onClick={setShuffleIndexArray}
-              />
-            </div>
+          <div className="flex">
+            <IoShuffleOutline
+              className={`cursor-pointer hover:text-gray-100 ${
+                shuffleIndexArray.length > 0 && "text-gray-100"
+              }`}
+              onClick={setShuffleIndexArray}
+            />
 
-            <IoRepeat className="cursor-pointer" onClick={setIsRepeat} />
+            <IoRepeat
+              className={`cursor-pointer hover:text-gray-100 ${
+                isRepeat && "text-gray-100"
+              }`}
+              onClick={setIsRepeat}
+            />
           </div>
 
           <div className="flex items-center px-4  md:w-full xl:px-0">
