@@ -32,6 +32,7 @@ export function SongOptions({
       if (form) {
         form.reset();
       }
+      // @ts-ignore
       modal?.close();
     }
   };
@@ -55,8 +56,10 @@ export function SongOptions({
               <a
                 className="w-full text-left"
                 onClick={() =>
+                  // @ts-ignore
                   document
                     .getElementById(`add-to-playlist-modal-${index}`)
+                    // @ts-ignore
                     .showModal()
                 }
               >

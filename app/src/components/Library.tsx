@@ -3,7 +3,6 @@ import { useRef, useEffect } from "react";
 import autoAnimate from "@formkit/auto-animate";
 import { Song } from "./Song";
 import { SongOptions } from "./SongOptions";
-import type { SongType } from "../stores/library";
 
 export function Library() {
   const songs = useLibraryStore((state) => state.songs);
