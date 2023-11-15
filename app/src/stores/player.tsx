@@ -53,6 +53,8 @@ const playerSchema = z.object({
   setShuffleIndex: z.function(),
   shuffleNextNong: z.function().args(z.array(songSchema)),
   shufflePrevSong: z.function().args(z.array(songSchema)),
+  isRepeat: z.boolean(),
+  setIsRepeat: z.function().args(z.boolean()),
 });
 
 type PlayerState = z.infer<typeof playerSchema>;
@@ -114,6 +116,8 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
   shuffleIndex: 0,
   setShuffleIndex: (shuffleIndex: any) =>
     set(() => ({ shuffleIndex: shuffleIndex })),
+  isRepeat: false,
+  setIsRepeat: () => set((state) => ({ isRepeat: !state.isRepeat })),
   //player control functions
   play: () => {
     set((state: PlayerState) => {
@@ -140,17 +144,22 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
           ? useLibraryStore.getState().songs
           : useLibraryStore.getState().playlists[state.selectedPlaylist].songs;
 
+      let nextIndex = state.selectedSong.index + 1;
+      let nextSong = songsArray[nextIndex];
+      const audioElement = state.audioElement as HTMLAudioElement;
+
+      if (state.isRepeat && nextIndex >= songsArray.length) {
+        nextIndex = 0;
+        nextSong = songsArray[0];
+      }
+
       if (state.shuffleIndexArray.length > 0) {
         returnState = state.shuffleNextNong(songsArray);
       } else {
-        const nextIndex = state.selectedSong.index + 1;
-        const nextSong = songsArray[nextIndex];
-        const audioElement = state.audioElement as HTMLAudioElement;
         audioElement.pause();
         audioElement.currentTime = 0;
         audioElement.src = nextSong.filePath;
         audioElement.load();
-
         // Add an event listener for when the audio is ready to play
         audioElement.oncanplay = () => {
           audioElement.play();
@@ -170,7 +179,7 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
   },
   shuffleNextNong: (songsArray: SongType[]): any => {
     const state: any = usePlayerStore.getState();
-    const nextIndex = state.shuffleIndex;
+    let nextIndex = state.shuffleIndex;
     let nextSong = songsArray[state.shuffleIndexArray[nextIndex]];
     if (nextSong == state.selectedSong.song) {
       nextSong = songsArray[state.shuffleIndexArray[nextIndex + 1]];
@@ -185,7 +194,10 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
     audioElement.oncanplay = () => {
       audioElement.play();
     };
-
+    if (state.isRepeat && nextIndex == songsArray.length) {
+      nextIndex = 0;
+      nextSong = songsArray[0];
+    }
     return {
       selectedSong: {
         index: nextIndex,

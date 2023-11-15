@@ -3,7 +3,7 @@ import { Player } from "./Player";
 import { usePlayerStore } from "../stores/player";
 
 import { MdOutlineVolumeUp } from "react-icons/md";
-import { IoShuffleOutline } from "react-icons/io5";
+import { IoShuffleOutline, IoRepeat } from "react-icons/io5";
 
 export function MediaControls() {
   const selectedSong = usePlayerStore((state) => state.selectedSong);
@@ -21,6 +21,8 @@ export function MediaControls() {
   const setShuffleIndexArray = usePlayerStore(
     (state) => state.setShuffleIndexArray,
   );
+  const isRepeat = usePlayerStore((state) => state.isRepeat);
+  const setIsRepeat = usePlayerStore((state) => state.setIsRepeat);
   const handleProgressBarChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!audioElement) return;
 
@@ -42,10 +44,6 @@ export function MediaControls() {
     const fillRight = "rgba(217, 217, 217, .1)";
 
     volumeBar.style.background = `linear-gradient(to right, ${fillLeft} ${val}%, ${fillRight} ${val}%`;
-  };
-
-  const handleShuffle = () => {
-    setShuffleIndexArray();
   };
 
   return (
@@ -197,9 +195,15 @@ export function MediaControls() {
               </svg>
             </button>
 
-            <div className="cursor-pointer" onClick={handleShuffle}>
-              <IoShuffleOutline />
+            <div>
+              {isRepeat && <h1>mango</h1>}
+              <IoShuffleOutline
+                className="cursor-pointer"
+                onClick={setShuffleIndexArray}
+              />
             </div>
+
+            <IoRepeat className="cursor-pointer" onClick={setIsRepeat} />
           </div>
 
           <div className="flex items-center px-4  md:w-full xl:px-0">

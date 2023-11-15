@@ -7,6 +7,7 @@ export function Player() {
   const setCurrentTime = usePlayerStore((state) => state.setCurrentTime);
   const setDuration = usePlayerStore((state) => state.setDuration);
   const nextSong = usePlayerStore((state) => state.nextSong);
+
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
