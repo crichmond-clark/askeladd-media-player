@@ -3,6 +3,7 @@ import { Player } from "./Player";
 import { usePlayerStore } from "../stores/player";
 
 import { MdOutlineVolumeUp } from "react-icons/md";
+import { IoShuffleOutline } from "react-icons/io5";
 
 export function MediaControls() {
   const selectedSong = usePlayerStore((state) => state.selectedSong);
@@ -17,7 +18,9 @@ export function MediaControls() {
   ) as HTMLAudioElement;
   const volume = usePlayerStore((state) => state.volume);
   const setVolume = usePlayerStore((state) => state.setVolume);
-
+  const setShuffleIndexArray = usePlayerStore(
+    (state) => state.setShuffleIndexArray,
+  );
   const handleProgressBarChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!audioElement) return;
 
@@ -39,6 +42,10 @@ export function MediaControls() {
     const fillRight = "rgba(217, 217, 217, .1)";
 
     volumeBar.style.background = `linear-gradient(to right, ${fillLeft} ${val}%, ${fillRight} ${val}%`;
+  };
+
+  const handleShuffle = () => {
+    setShuffleIndexArray();
   };
 
   return (
@@ -189,6 +196,10 @@ export function MediaControls() {
                 </defs>
               </svg>
             </button>
+
+            <div className="cursor-pointer" onClick={handleShuffle}>
+              <IoShuffleOutline />
+            </div>
           </div>
 
           <div className="flex items-center px-4  md:w-full xl:px-0">

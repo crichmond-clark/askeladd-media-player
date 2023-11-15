@@ -13,32 +13,9 @@ export function Library() {
     parent.current && autoAnimate(parent.current);
   }, [parent]);
 
-  const uniqueSongs = [
-    ...new Set(
-      songs.map((song) =>
-        JSON.stringify({
-          title: song.title,
-          artist: song.artist,
-          album: song.album,
-        }),
-      ),
-    ),
-  ]
-    .map((songStr) =>
-      songs.find(
-        (song) =>
-          JSON.stringify({
-            title: song.title,
-            artist: song.artist,
-            album: song.album,
-          }) === songStr,
-      ),
-    )
-    .filter((song): song is SongType => song !== undefined);
-
   return (
     <div className="mx-2 my-12 grid place-items-center" ref={parent}>
-      {uniqueSongs.map((song, index) => (
+      {songs.map((song, index) => (
         <div
           key={index}
           className="mb-2 flex items-center justify-center hover:bg-grey-dark focus:bg-grey-dark md:text-base"

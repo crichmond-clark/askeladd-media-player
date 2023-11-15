@@ -6,7 +6,7 @@ export function Player() {
   const setAudioElement = usePlayerStore((state) => state.setAudioElement);
   const setCurrentTime = usePlayerStore((state) => state.setCurrentTime);
   const setDuration = usePlayerStore((state) => state.setDuration);
-
+  const nextSong = usePlayerStore((state) => state.nextSong);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -34,6 +34,7 @@ export function Player() {
 
       audioRef.current.addEventListener("loadeddata", setAudioData);
       audioRef.current.addEventListener("timeupdate", setAudioTime);
+      audioRef.current.onended = () => nextSong();
     }
   }, [selectedSong]);
 

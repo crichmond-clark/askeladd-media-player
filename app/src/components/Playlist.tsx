@@ -41,7 +41,12 @@ export function Playlist() {
             className="mb-2 flex items-center justify-center hover:bg-grey-dark focus:bg-grey-dark md:text-base"
           >
             <Song song={song} index={index} />
-            <SongOptions isLibrary={false} isPlaylist={true} song={song} />
+            <SongOptions
+              isLibrary={false}
+              isPlaylist={true}
+              song={song}
+              index={index}
+            />
           </div>
         ))}
       </div>
