@@ -13,7 +13,10 @@ export function Library() {
   }, [parent]);
 
   return (
-    <div className="mx-2 my-12 grid place-items-center" ref={parent}>
+    <div
+      className="mx-2 my-12 grid h-screen place-items-center overflow-y-auto"
+      ref={parent}
+    >
       {songs.map((song, index) => (
         <div
           key={index}

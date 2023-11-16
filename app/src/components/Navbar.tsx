@@ -29,7 +29,6 @@ export function Navbar() {
           </div>
           <div className="m-3 ml-auto flex flex-col">
             <AddPlaylist />
-            <p>playlists</p>
           </div>
         </div>
       </div>
