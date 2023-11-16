@@ -3,6 +3,7 @@ import { useLibraryStore } from "../stores/library";
 import { Song } from "./Song";
 import { Link } from "react-router-dom";
 import { SongOptions } from "./SongOptions";
+import { MdOutlinePlaylistAdd } from "react-icons/md";
 
 export function Playlist() {
   const selectedPlaylist = usePlayerStore((state) => state.selectedPlaylist);
@@ -14,24 +15,12 @@ export function Playlist() {
     <>
       <div className="flex justify-center">
         <h2 className="mb-2 mr-4 text-3xl">{selectedPlaylist}</h2>
-        <Link to="/add-to-playlist">
-          <svg
-            className="w-12"
-            viewBox="0 0 66 50"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect width="66" height="50" rx="5" fill="#3F3F3F" />
-            <rect x="29" y="7" width="8" height="37" fill="#828282" />
-            <rect
-              x="14"
-              y="30"
-              width="8"
-              height="37"
-              transform="rotate(-90 14 30)"
-              fill="#828282"
-            />
-          </svg>
+        <Link
+          to="/add-to-playlist"
+          className="tooltip tooltip-bottom tooltip-primary"
+          data-tip="add songs to playlist"
+        >
+          <MdOutlinePlaylistAdd size={30} className="active:text-gray-200" />
         </Link>
       </div>
       <div className="mx-2 my-12 grid place-items-center">

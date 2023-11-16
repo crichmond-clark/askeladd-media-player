@@ -25,4 +25,13 @@ export default {
       scale: ['active'],
     },
   },
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          "primary": "#3F3F3F"
+        },
+      },
+    ],
+  },
 }

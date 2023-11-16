@@ -70,7 +70,7 @@ export function AddSongs() {
       <button>
         <label htmlFor="file-input" className="hover:cursor-pointer">
           <svg
-            className="h-12 w-12 rounded-full border-2 border-grey-500 bg-transparent p-1 transition-all duration-500 hover:border-transparent"
+            className="h-12 w-12 rounded-full border-2 border-grey-500 bg-transparent p-1 transition-all duration-200 hover:border-transparent"
             viewBox="0 0 66 50"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
