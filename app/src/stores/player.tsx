@@ -272,13 +272,13 @@ export const usePlayerStore = create<PlayerState>()((set) => ({
   },
 }));
 
-const savedState = localStorage.getItem("playerState");
-if (savedState) {
-  usePlayerStore.setState(JSON.parse(savedState));
-}
+// const savedState = localStorage.getItem("playerState");
+// if (savedState) {
+//   usePlayerStore.setState(JSON.parse(savedState));
+// }
 
-usePlayerStore.subscribe((state) => {
-  // Exclude audioElement from the state that's saved to localStorage
-  const { audioElement, ...stateWithoutAudioElement } = state;
-  localStorage.setItem("playerState", JSON.stringify(stateWithoutAudioElement));
-});
+// usePlayerStore.subscribe((state) => {
+//   // Exclude audioElement from the state that's saved to localStorage
+//   const { audioElement, ...stateWithoutAudioElement } = state;
+//   localStorage.setItem("playerState", JSON.stringify(stateWithoutAudioElement));
+// });

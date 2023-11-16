@@ -73,11 +73,11 @@ export const useLibraryStore = create<LibraryState>((set) => ({
     })),
 }));
 
-const savedState = localStorage.getItem("libraryState");
-if (savedState) {
-  useLibraryStore.setState(JSON.parse(savedState));
-}
+// const savedState = localStorage.getItem("libraryState");
+// if (savedState) {
+//   useLibraryStore.setState(JSON.parse(savedState));
+// }
 
-useLibraryStore.subscribe((state) => {
-  localStorage.setItem("libraryState", JSON.stringify(state));
-});
+// useLibraryStore.subscribe((state) => {
+//   localStorage.setItem("libraryState", JSON.stringify(state));
+// });
