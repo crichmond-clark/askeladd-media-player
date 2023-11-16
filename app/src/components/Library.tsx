@@ -3,7 +3,7 @@ import { useRef, useEffect } from "react";
 import autoAnimate from "@formkit/auto-animate";
 import { Song } from "./Song";
 import { SongOptions } from "./SongOptions";
-import { MdQueueMusic, MdMusicNote } from "react-icons/md";
+import { MdMusicNote } from "react-icons/md";
 
 export function Library() {
   const songs = useLibraryStore((state) => state.songs);
