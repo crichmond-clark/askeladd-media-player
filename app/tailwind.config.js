@@ -20,4 +20,9 @@ export default {
     },
   },
   plugins: [require("daisyui")],
+  variants: {
+    extend: {
+      scale: ['active'],
+    },
+  },
 }

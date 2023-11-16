@@ -51,10 +51,20 @@ export function MediaControls() {
     <>
       {selectedSong && <Player />}
       <div className="mt-auto grid h-fit  bg-grey-dark py-4 md:grid-cols-3">
+        <div className="grid place-items-center">
+          <p className="self-end text-gray-400">
+            {selectedSong && selectedSong.song.title}
+          </p>
+          <p className="">{selectedSong && selectedSong.song.artist}</p>
+        </div>
+
         <div className="flex flex-col items-center justify-center md:col-start-2">
           <div>
             {/* previous button */}
-            <button className="mr-3 mt-2" onClick={() => prevSong()}>
+            <button
+              className="mr-3 mt-2 active:scale-90"
+              onClick={() => prevSong()}
+            >
               <svg
                 width="42"
                 height="62"
@@ -110,7 +120,7 @@ export function MediaControls() {
 
             {!isPlaying ? (
               /* play button */
-              <button onClick={playPause}>
+              <button onClick={playPause} className="active:scale-90">
                 <svg
                   width="77"
                   height="77"
@@ -127,7 +137,7 @@ export function MediaControls() {
               </button>
             ) : (
               /* pause button */
-              <button onClick={playPause}>
+              <button onClick={playPause} className="active:scale-90">
                 <svg
                   width="77"
                   height="77"
@@ -142,7 +152,10 @@ export function MediaControls() {
               </button>
             )}
             {/* next button */}
-            <button className="ml-3 mt-2" onClick={() => nextSong()}>
+            <button
+              className="ml-3 mt-2 active:scale-90"
+              onClick={() => nextSong()}
+            >
               <svg
                 width="41"
                 height="62"
@@ -198,18 +211,17 @@ export function MediaControls() {
           </div>
 
           <div className="flex">
-            <IoShuffleOutline
-              className={`cursor-pointer hover:text-gray-100 ${
-                shuffleIndexArray.length > 0 && "text-gray-100"
-              }`}
-              onClick={setShuffleIndexArray}
-            />
-
             <IoRepeat
               className={`cursor-pointer hover:text-gray-100 ${
                 isRepeat && "text-gray-100"
               }`}
               onClick={setIsRepeat}
+            />
+            <IoShuffleOutline
+              className={`ml-16 cursor-pointer hover:text-gray-100 ${
+                shuffleIndexArray.length > 0 && "text-gray-100"
+              }`}
+              onClick={setShuffleIndexArray}
             />
           </div>
 
